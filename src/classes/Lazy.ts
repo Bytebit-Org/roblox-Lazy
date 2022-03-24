@@ -58,6 +58,7 @@ export class Lazy<T> implements ILazy<T> {
 		const opcallResult = opcall(this.loadCallback);
 		if (opcallResult.success) {
 			this.value = opcallResult.value;
+			this.hasValueBeenLoaded = true;
 
 			return {
 				success: true,
