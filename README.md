@@ -26,7 +26,7 @@ npm i @rbxts/lazy
 ### Wally
 [Wally](https://github.com/UpliftGames/wally/) users can install this package by adding the following line to their `Wally.toml` under `[dependencies]`:
 ```
-Lazy = "bytebit/lazy@0.0.1"
+Lazy = "bytebit/lazy@1.0.0"
 ```
 
 Then just run `wally install`.
@@ -35,21 +35,43 @@ Then just run `wally install`.
 Model files are uploaded to every release as `.rbxmx` files. You can download the file from the [Releases page](https://github.com/Bytebit-Org/roblox-Lazy/releases) and load it into your project however you see fit.
 
 ### From model asset
-New versions of the asset are uploaded with every release. The asset can be added to your Roblox Inventory and then inserted into your Place via Toolbox by getting it [here.](https://www.roblox.com/library/9164245379/Lazy-Package)
+New versions of the asset are uploaded with every release. The asset can be added to your Roblox Inventory and then inserted into your Place via Toolbox by getting it [here.](https://www.roblox.com/library/9186407635/Lazy-Package)
 
 ## Documentation
 Documentation can be found [here](https://github.com/Bytebit-Org/roblox-Lazy/tree/master/docs), is included in the TypeScript files directly, and was generated using [TypeDoc](https://typedoc.org/).
 
 ## Example
-Here will lie a short explanation of an example use-case.
+In this example, the Lazy class will be used to wait to load a reference to something in the world named the Objective, and it will do so by waiting for a RemoteEvent to be fired from the server saying it is ready.
 
 <details>
   <summary>roblox-ts example</summary>
 
   ```ts
-  import { Lazy } from "@rbxts/lazy";
+  import { ILazy, Lazy } from "@rbxts/lazy";
+  import { ReplicatedService } from "@rbxts/services";
 
-  export {};
+  type Objective = {}; // some type for the objective
+
+  declare const loadObjective: () => Objective; // some function that loads the objective and returns it
+
+  export class ObjectiveLoader {
+    private objectiveLazyLoader: ILazy<Objective>;
+
+    public constructor() {
+      this.objectiveLazyLoader = new Lazy(loadObjective);
+
+      this.waitForServerToSayObjectiveIsReady();
+    }
+
+    private waitForServerToSayObjectiveIsReady() {
+      const remoteEvent = ReplicatedStorage.WaitForChild("ObjectiveReadiedRemoteEvent");
+      assert(remoteEvent.IsA("RemoteEvent"));
+
+      remoteEvent.OnClientEvent.Connect(() => {
+        objectiveLazyLoader.getValue();
+      });
+    }
+  }
   ```
 </details>
 
@@ -57,9 +79,39 @@ Here will lie a short explanation of an example use-case.
   <summary>Luau example</summary>
 
   ```lua
+  local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
   local Lazy = require(path.to.modules["lazy"]).Lazy
 
+  function loadObjective()
+    -- some function that loads the objective and returns it 
+  end
+
+  local ObjectiveLoader = {}
+  ObjectiveLoader.__index = ObjectiveLoader
+
+  function new()
+    local self = {}
+    setmetatable(self, ObjectiveLoader)
+
+    self._objectiveLazyLoader = Lazy.new(loadObjective)
+
+    _waitForServerToSayObjectiveIsReady(self)
+
+    return self
+  end
+
+  function _waitForServerToSayObjectiveIsReady(self)
+      local remoteEvent = ReplicatedStorage:WaitForChild("ObjectiveReadiedRemoteEvent")
+      assert(remoteEvent:IsA("RemoteEvent"))
+
+      remoteEvent.OnClientEvent:Connect(function()
+        objectiveLazyLoader:getValue()
+      end)
+  end
+
   return {
+    new = new
   }
   ```
 </details>

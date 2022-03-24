@@ -4,5 +4,5 @@ registry = "test"
 
 [[package]]
 name = "bytebit/lazy"
-version = "0.0.1"
+version = "1.0.0"
 dependencies = []

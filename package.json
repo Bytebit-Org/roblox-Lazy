@@ -1,6 +1,6 @@
 {
   "name": "@rbxts/lazy",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A simple implementation of a lazy loading wrapper for any type of value.",
   "main": "out/init.lua",
   "scripts": {
