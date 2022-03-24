@@ -41,33 +41,15 @@ New versions of the asset are uploaded with every release. The asset can be adde
 Documentation can be found [here](https://github.com/Bytebit-Org/roblox-Lazy/tree/master/docs), is included in the TypeScript files directly, and was generated using [TypeDoc](https://typedoc.org/).
 
 ## Example
-Here's a simple example of a destroyable class with a couple public methods on it that we want to make sure logs consistently when a destroyed instance is misused.
+Here will lie a short explanation of an example use-case.
 
 <details>
   <summary>roblox-ts example</summary>
 
   ```ts
-  import { assertNotDestroyed, warnAlreadyDestroyed } from "@rbxts/lazy";
+  import { Lazy } from "@rbxts/lazy";
 
-  export class Destroyable {
-    private isDestroyed = false;
-
-    public destroy() {
-      if (this.isDestroyed) {
-        warnAlreadyDestroyed(this);
-        return;
-      }
-
-      // destruction logic
-      this.isDestroyed = true;
-    }
-
-    public foobar() {
-      assertNotDestroyed(this.isDestroyed, this);
-
-      // foobar logic
-    }
-  }
+  export {};
   ```
 </details>
 
@@ -75,39 +57,9 @@ Here's a simple example of a destroyable class with a couple public methods on i
   <summary>Luau example</summary>
 
   ```lua
-  local assertNotDestroyed = require(path.to.modules["lazy"]).assertNotDestroyed
-  local warnAlreadyDestroyed = require(path.to.modules["lazy"]).warnAlreadyDestroyed
-
-  local Destroyable = {}
-  Destroyable.__index = Destroyable
-
-  function new()
-    local self = {}
-    setmetatable(self, Destroyable)
-
-    self.isDestroyed = false
-
-    return self
-  end
-
-  function Destroyable:destroy()
-    if self.isDestroyed then
-      warnAlreadyDestroyed(self)
-      return
-    end
-
-    -- destruction logic
-    self.isDestroyed = true
-  end
-
-  function Destroyable:foobar()
-    assertNotDestroyed(self.isDestroyed, self)
-
-    -- foobar logic
-  end
+  local Lazy = require(path.to.modules["lazy"]).Lazy
 
   return {
-    new = new
   }
   ```
 </details>
