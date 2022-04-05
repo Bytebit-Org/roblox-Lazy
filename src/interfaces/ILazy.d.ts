@@ -1,4 +1,4 @@
-import { IReadonlyLazy } from "interfaces/IReadonlyLazy";
+import { IReadonlyLazy } from "./IReadonlyLazy";
 
 /**
  * Defines the complete interface for a lazy value holder

@@ -1,7 +1,7 @@
 [package]
 name = "bytebit/lazy"
 description = "A simple implementation of a lazy loading wrapper for any type of value."
-version = "1.0.0"
+version = "1.0.1"
 license = "MIT"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"

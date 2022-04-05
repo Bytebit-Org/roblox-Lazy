@@ -1,4 +1,4 @@
-import { ILazy } from "interfaces/ILazy";
+import { ILazy } from "../interfaces/ILazy";
 
 /**
  * An implementation of ILazy<T> that takes a callback function in

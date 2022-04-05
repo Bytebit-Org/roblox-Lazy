@@ -26,7 +26,7 @@ npm i @rbxts/lazy
 ### Wally
 [Wally](https://github.com/UpliftGames/wally/) users can install this package by adding the following line to their `Wally.toml` under `[dependencies]`:
 ```
-Lazy = "bytebit/lazy@1.0.0"
+Lazy = "bytebit/lazy@1.0.1"
 ```
 
 Then just run `wally install`.
